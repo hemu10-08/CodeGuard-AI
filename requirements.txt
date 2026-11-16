@@ -1,0 +1,7 @@
+﻿streamlit==1.67.0
+transformers==5.23.0
+pandas==3.1.1
+numpy
+scikit-learn==1.9.1
+safetensors
+accelerate>=1.15.0

@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+.venv-*/
+venv/
+env/
+
+# Secrets
+.env
+.env.*
+!.env.example
+secrets.toml
+
+# Datasets and training caches
+data/
+training_v2/hf_cache/
+*.parquet
+
+# Model weights and checkpoints
+models/
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# Training reports and temporary files
+reports/training_v2/
+*.tmp
+
+# Backups
+*.bak
+*_backup*
+*_before_*
+
+# Local runtime outputs
+.streamlit/secrets.toml
+.DS_Store
+Thumbs.db
+
+# Experimental training and audit artifacts
+/training_v2/
+/reports/
+/data/
+/models/
+test_*.py
+diagnostic_app.py
+_rewrite_app.py
+app_content.txt
