@@ -5,3 +5,4 @@ numpy
 scikit-learn==1.9.1
 safetensors
 accelerate>=1.15.0
+huggingface_hub
