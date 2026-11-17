@@ -52,3 +52,6 @@ test_*.py
 diagnostic_app.py
 _rewrite_app.py
 app_content.txt
+
+# Temporary model download tests
+model_download_test/

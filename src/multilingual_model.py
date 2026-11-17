@@ -1,18 +1,21 @@
-
-from pathlib import Path
+﻿from pathlib import Path
 
 import torch
+from huggingface_hub import snapshot_download
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-MODEL_PATH = (
+MODEL_REPO_ID = "hemu10-08/CodeGuard-Multilingual-CodeBERT"
+
+MODEL_DIR = (
     PROJECT_ROOT
     / "models"
     / "codeguard-multilingual-v1"
-    / "best_model"
 )
+
+MODEL_PATH = MODEL_DIR / "best_model"
 
 MAX_LENGTH = 512
 DEFAULT_THRESHOLD = 0.008
@@ -23,13 +26,54 @@ LABELS = {
 }
 
 
+def ensure_model_available():
+    """Use the local model or download required files from Hugging Face."""
+
+    required_files = [
+        MODEL_PATH / "config.json",
+        MODEL_PATH / "model.safetensors",
+        MODEL_PATH / "tokenizer.json",
+        MODEL_PATH / "tokenizer_config.json",
+    ]
+
+    if all(path.is_file() for path in required_files):
+        print("Using existing local CodeGuard model.")
+        return
+
+    print("Downloading CodeGuard model from Hugging Face...")
+
+    snapshot_download(
+        repo_id=MODEL_REPO_ID,
+        repo_type="model",
+        local_dir=str(MODEL_DIR),
+        allow_patterns=[
+            "best_model/config.json",
+            "best_model/model.safetensors",
+            "best_model/tokenizer.json",
+            "best_model/tokenizer_config.json",
+            "inference_config.json",
+        ],
+    )
+
+    missing = [
+        str(path)
+        for path in required_files
+        if not path.is_file()
+    ]
+
+    if missing:
+        raise FileNotFoundError(
+            "Model download incomplete. Missing files: "
+            + ", ".join(missing)
+        )
+
+    print("CodeGuard model downloaded successfully.")
+
+
 def load_multilingual_model():
     """Load the trained CodeGuard multilingual model."""
 
-    if not MODEL_PATH.exists():
-        raise FileNotFoundError(
-            f"Trained model not found: {MODEL_PATH}"
-        )
+    ensure_model_available()
 
     device = torch.device(
         "cuda" if torch.cuda.is_available() else "cpu"

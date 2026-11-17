@@ -7,7 +7,7 @@ CodeGuard AI is a Streamlit application that uses a fine-tuned CodeBERT model to
 ## Features
 
 - Source code vulnerability classification
-- Local model inference
+- Automatic model download from Hugging Face
 - Multilingual code support
 - Vulnerability probability and confidence display
 - Analysis history and JSON export
@@ -100,7 +100,10 @@ models/codeguard-multilingual-v1/best_model/
 
 The directory must contain the required Hugging Face model and tokenizer files.
 
-A public model download location has not yet been configured.
+The application automatically downloads the required model files from the public Hugging Face repository:
+https://huggingface.co/hemu10-08/CodeGuard-Multilingual-CodeBERT
+
+No Hugging Face token is required. Model weights are not stored in this GitHub repository.
 
 ### 6. Run the application
 
